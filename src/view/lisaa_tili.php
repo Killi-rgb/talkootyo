@@ -14,11 +14,6 @@
     <div class="error"><?= getValue($error,'email'); ?></div>
   </div>
   <div>
-    <label for="discord">Discord-tunnus:</label>
-    <input type="text" name="discord" value="<?= getValue($formdata,'discord')?>">
-    <div class="error"><?= getValue($error,'discord'); ?></div>
-  </div>
-  <div>
     <label for="salasana1">Salasana:</label>
     <input type="password" name="salasana1">
     <div class="error"><?= getValue($error,'salasana'); ?></div>
