@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="fi">
   <head>
-    <title>lanify - <?=$this->e($title)?></title>
+    <title>Talkootyö - <?=$this->e($title)?></title>
     <meta charset="UTF-8">
     <link href="styles/styles.css" rel="stylesheet">  
   </head>
   <body>
     <header>
-      <h1><a href="<?=BASEURL?>">lanify</a></h1>
+      <h1><a href="<?=BASEURL?>">Talkootyöt</a></h1>
           <header>
        
       <div class="profile">
@@ -31,7 +31,7 @@
     </section>
     <footer>
       <hr>
-      <div>lanify by Kurpitsa</div>
+      <div>Talkootyöt by Killi</div>
     </footer>
   </body>
 </html>

@@ -8,7 +8,7 @@
        "host" => "localhost"
     ),
     "urls" => array(
-        "baseUrl" => "/~p50456/lanify"
+        "baseUrl" => "/~p50456/talkootyo"
     )
   );
 
