@@ -3,7 +3,7 @@
   require_once HELPERS_DIR . 'DB.php';
 
   function lisaaHenkilo($nimi,$email,$salasana) {
-    DB::run('INSERT INTO henkilo (nimi, email, salasana) VALUE  (?,?,?,?);',[$nimi,$email,$salasana]);
+    DB::run('INSERT INTO talkoo_henkilo (nimi, email, salasana) VALUE  (?,?,?);',[$nimi,$email,$salasana]);
     return DB::lastInsertId();
   }
 
@@ -27,11 +27,11 @@
   }
 
   function tarkistaVaihtoavain($avain) {
-    return DB::run('SELECT nollausavain, nollausaika-NOW() AS aikaikkuna FROM henkilo WHERE nollausavain = ?', [$avain])->fetch();
+    return DB::run('SELECT nollausavain, nollausaika-NOW() AS aikaikkuna FROM talkoo_henkilo WHERE nollausavain = ?', [$avain])->fetch();
   }
 
   function vaihdaSalasanaAvaimella($salasana,$avain) {
-    return DB::run('UPDATE henkilo SET salasana = ?, nollausavain = NULL, nollausaika = NULL WHERE nollausavain = ?', [$salasana,$avain])->rowCount();
+    return DB::run('UPDATE talkoo_henkilo SET salasana = ?, nollausavain = NULL, nollausaika = NULL WHERE nollausavain = ?', [$salasana,$avain])->rowCount();
   }
 
 

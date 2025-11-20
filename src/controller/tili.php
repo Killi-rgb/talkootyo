@@ -26,16 +26,7 @@
     }
   }
 
-  // Tarkistetaan, että discord-tunnus on määritelty ja se on
-  // muodossa tunnus#0000.
-  if (!isset($formdata['discord']) || !$formdata['discord']) {
-    $error['discord'] = "Anna discord-tunnuksesi muodossa tunnus#0000.";
-  } else {
-    if (!preg_match("/^.+#\d{4}$/",$formdata['discord'])) {
-      $error['discord'] = "Discord-tunnuksesi muoto on virheellinen.";
-    }
-  }
-
+  
   // Tarkistetaan, että sähköpostiosoite on määritelty ja se on
   // oikeassa muodossa.
   if (!isset($formdata['email']) || !$formdata['email']) {
@@ -70,12 +61,11 @@
     // Salataan salasana myös samalla.
     $nimi = $formdata['nimi'];
     $email = $formdata['email'];
-    $discord = $formdata['discord'];
     $salasana = password_hash($formdata['salasana1'], PASSWORD_DEFAULT);
 
     // Lisätään henkilö tietokantaan. Jos lisäys onnistui,
     // tulee palautusarvona lisätyn henkilön id-tunniste.
-    $idhenkilo = lisaaHenkilo($nimi,$email,$discord,$salasana);
+    $idhenkilo = lisaaHenkilo($nimi,$email,$salasana);
 
     // Palautetaan JSON-tyyppinen taulukko, jossa:
     //  status   = Koodi, joka kertoo lisäyksen onnistumisen.
@@ -143,17 +133,17 @@
 
 function lahetaVahvavain($email,$url) {
   $message = "Hei!\n\n" . 
-             "Olet rekisteröitynyt Lanify-palveluun tällä\n" . 
+             "Olet rekisteröitynyt Talkoo-palveluun tällä\n" . 
              "sähköpostiosoitteella. Klikkaamalla alla olevaa\n" . 
              "linkkiä vahvistat käyttämäsi sähköpostiosoitteen\n" .
-             "ja pääset käyttämään Lanify-palvelua.\n\n" . 
+             "ja pääset käyttämään Talkoo-palvelua.\n\n" . 
              "$url\n\n" .
-             "Jos et ole rekisteröitynyt Lanify palveluun, niin\n" . 
+             "Jos et ole rekisteröitynyt Talkoo-palveluun, niin\n" . 
              "silloin tämä sähköposti on tullut sinulle\n" .
              "vahingossa. Siinä tapauksessa ole hyvä ja\n" .
              "poista tämä viesti.\n\n".
-             "Terveisin, Lanify-palvelu";
-  return mail($email,'Lanify-tilin aktivointilinkki',$message);
+             "Terveisin, Talkoo-palvelu";
+  return mail($email,'Talkoo-tilin aktivointilinkki',$message);
 }
 
 function lahetaVaihtoavain($email,$url) {
@@ -164,8 +154,8 @@ function lahetaVaihtoavain($email,$url) {
              "$url\n\n" .
              "Jos et ole pyytänyt tilisi salasanan vaihtoa, niin\n" .
              "voit poistaa tämän viestin turvallisesti.\n\n" .
-             "Terveisin, Lanify-palvelu";
-  return mail($email,'Lanify-tilin salasanan vaihtaminen',$message);
+             "Terveisin, Talkoo-palvelu";
+  return mail($email,'Talkoo-tilin salasanan vaihtaminen',$message);
 }
 function luoVaihtoavain($email, $baseurl='') {
 
