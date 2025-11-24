@@ -214,17 +214,9 @@
       break;
         case (bool)preg_match('/\/admin.*/', $request):
           if ($loggeduser["admin"]) {
-              switch ($request) {
-              case '/admin/tapahtumat':
-                echo "Tapahtumat";
-               break;
-                 case '/admin/kayttajat':
-                echo "Käyttäjätlista";
-                break;
-              default:
-                echo "Pyydettyä ylläpitosivua ei löydy!";
-
-            }
+               echo "Ylläpitosivut";
+               
+               
       } else {
         echo $templates->render('admin_ei_oikeuksia');
       }
