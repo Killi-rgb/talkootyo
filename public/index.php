@@ -89,6 +89,8 @@
         echo $templates->render('lisaa_tili', ['formdata' => [], 'error' => []]);
         break;
       } 
+
+      
           case "/vahvista":
       if (isset($_GET['key'])) {
         $key = $_GET['key'];
@@ -215,12 +217,28 @@
         case (bool)preg_match('/\/admin.*/', $request):
           if ($loggeduser["admin"]) {
                echo "Ylläpitosivut";
+               echo $templates->render('lisaa_tapahtuma', ['formdata' => $formdata]);
+            break;
+          }
+               // Tää on uutta koodia
+      case '/lisaa_tapahtuma': {
+        if (isset($_POST['laheta'])) {
+        $formdata = cleanArrayData($_POST);
+        require_once CONTROLLER_DIR . 'tapahtuma.php';
+        $tulos = lisaaTapahtuma($formdata,$config['urls']['baseUrl']);
+        if ($tulos['status'] == "200") {
+          echo $templates->render('tapahtumaluotu.php', ['formdata' => $formdata]);
+          break;
+        }
+        // Yllä uutta koodia!
+
+      
                
                
       } else {
         echo $templates->render('admin_ei_oikeuksia');
       }
-      break;
+      break; }
 
 
       default:
