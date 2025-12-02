@@ -213,13 +213,14 @@
     case (bool)preg_match('/\/admin.*/', $request):
       if ($loggeduser["admin"]) {
         echo "Ylläpitosivut";
+         echo $templates->render('yllapitosivut');
         switch ($request) {
-          // Tää on uutta koodia
+          // Tätä muokattu tiistaina
           case  '/admin/lisaa_tapahtuma':
             if (isset($_POST['laheta'])) {
               $formdata = cleanArrayData($_POST);
               require_once MODEL_DIR . 'tapahtuma.php';
-              $tulos = lisaaTapahtuma($formdata['nimi'], $formdata['kuvaus'], $formdata['tap_alkaa'],$formdata['tap_loppuu']);
+              $tulos = lisaaTapahtuma($formdata['nimi'], $formdata['kuvaus'], $formdata['tap_alkaa'], $formdata['tap_loppuu']);
               if ($tulos) {
                 echo $templates->render('tapahtumaluotu', ['formdata' => $formdata]);
                 break;
@@ -228,10 +229,11 @@
               echo $templates->render('lisaa_tapahtuma');
               break;
             }
-            // Yllä uutta koodia!
+            // Tätä muokattu tiistaina ^^
+          break;
           default:
             // Tässä kutsutaan ylläpidon default-sivua
-
+          
         }
       } else {
         echo $templates->render('admin_ei_oikeuksia');

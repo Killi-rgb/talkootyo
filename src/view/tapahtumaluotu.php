@@ -2,4 +2,4 @@
 
 <h1>Tapahtuma lisätty</h1>
 
-<p>Jaadi jaa lässyn lää!</p>
+<p>Tapahtuma lisätty onnistuneesti!</p>
