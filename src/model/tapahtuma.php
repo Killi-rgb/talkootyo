@@ -9,8 +9,8 @@
     return DB::run('SELECT * FROM talkootyo WHERE idtapahtuma = ?;',[$id])->fetch();
   }
     function lisaaTapahtuma($nimi,$kuvaus,$tap_alkaa,$tap_loppuu) {
-    DB::run('INSERT INTO talkootyo (idtapahtuma, nimi, kuvaus, osallistujia, tap_alkaa, tap_loppuu) 
-                    VALUE  (?,?,?,null,?,?);',[$nimi,$kuvaus,$tap_alkaa,$tap_loppuu]);
+    DB::run('INSERT INTO talkootyo (nimi, kuvaus, osallistujia, tap_alkaa, tap_loppuu) 
+                    VALUE  (?,?,null,?,?);',[$nimi,$kuvaus,$tap_alkaa,$tap_loppuu]);
     return DB::lastInsertId();
     }
 ?>

@@ -74,8 +74,8 @@
       }
       break;
     
-      case '/lisaa_tili':
-        if (isset($_POST['laheta'])) {
+    case '/lisaa_tili':
+      if (isset($_POST['laheta'])) {
         $formdata = cleanArrayData($_POST);
         require_once CONTROLLER_DIR . 'tili.php';
         $tulos = lisaaTili($formdata,$config['urls']['baseUrl']);
@@ -88,10 +88,9 @@
       } else {
         echo $templates->render('lisaa_tili', ['formdata' => [], 'error' => []]);
         break;
-      } 
+      }
 
-      
-          case "/vahvista":
+    case "/vahvista":
       if (isset($_GET['key'])) {
         $key = $_GET['key'];
         require_once MODEL_DIR . 'henkilo.php';
@@ -105,7 +104,7 @@
       }
       break;
 
-         case "/kirjaudu":
+    case "/kirjaudu":
       if (isset($_POST['laheta'])) {
         require_once CONTROLLER_DIR . 'kirjaudu.php';
         if (tarkistaKirjautuminen($_POST['email'],$_POST['salasana'])) {
@@ -129,17 +128,16 @@
         echo $templates->render('kirjaudu', [ 'error' => []]);
       }
         break;
-          case "/logout":
+    case "/logout":
       require_once CONTROLLER_DIR . 'kirjaudu.php';
       logout();
       header("Location: " . $config['urls']['baseUrl']);
       break;
-          case "/tilaa_vaihtoavain":
+    case "/tilaa_vaihtoavain":
       $formdata = cleanArrayData($_POST);
       // Tarkistetaan, onko lomakkeelta lähetetty tietoa.
-      if (isset($formdata['laheta'])) {    
-  
-                require_once MODEL_DIR . 'henkilo.php';
+      if (isset($formdata['laheta'])) {
+        require_once MODEL_DIR . 'henkilo.php';
         // Tarkistetaan, onko lomakkeelle syötetty käyttäjätili olemassa.
         $user = haeHenkilo($formdata['email']);
         if ($user) {
@@ -161,13 +159,11 @@
           echo $templates->render('tilaa_vaihtoavain_lahetetty');
           break;
         }
-
-  
       } else {
         // Lomakeelta ei ole lähetetty tietoa, tulostetaan lomake.
         echo $templates->render('tilaa_vaihtoavain_lomake');
       }
-          case "/reset":
+    case "/reset":
       // Otetaan vaihtoavain talteen.
       $resetkey = $_GET['key'];
 
@@ -192,7 +188,7 @@
       $formdata = cleanArrayData($_POST);
       if (isset($formdata['laheta'])) {
 
-                // Lomakkeelle on syötetty uudet salasanat, annetaan syötteen
+        // Lomakkeelle on syötetty uudet salasanat, annetaan syötteen
         // käsittely kontrollerille.
         require_once CONTROLLER_DIR . 'tili.php';
         $tulos = resetoiSalasana($formdata,$resetkey);
@@ -214,36 +210,36 @@
       }
 
       break;
-        case (bool)preg_match('/\/admin.*/', $request):
-          if ($loggeduser["admin"]) {
-               echo "Ylläpitosivut";
-               echo $templates->render('lisaa_tapahtuma', ['formdata' => $formdata]);
-            break;
-          }
-               // Tää on uutta koodia
-      case '/lisaa_tapahtuma': {
-        if (isset($_POST['laheta'])) {
-        $formdata = cleanArrayData($_POST);
-        require_once CONTROLLER_DIR . 'tapahtuma.php';
-        $tulos = lisaaTapahtuma($formdata,$config['urls']['baseUrl']);
-        if ($tulos['status'] == "200") {
-          echo $templates->render('tapahtumaluotu.php', ['formdata' => $formdata]);
-          break;
-        }
-        // Yllä uutta koodia!
+    case (bool)preg_match('/\/admin.*/', $request):
+      if ($loggeduser["admin"]) {
+        echo "Ylläpitosivut";
+        switch ($request) {
+          // Tää on uutta koodia
+          case  '/admin/lisaa_tapahtuma':
+            if (isset($_POST['laheta'])) {
+              $formdata = cleanArrayData($_POST);
+              require_once MODEL_DIR . 'tapahtuma.php';
+              $tulos = lisaaTapahtuma($formdata['nimi'], $formdata['kuvaus'], $formdata['tap_alkaa'],$formdata['tap_loppuu']);
+              if ($tulos) {
+                echo $templates->render('tapahtumaluotu', ['formdata' => $formdata]);
+                break;
+              }
+            } else {
+              echo $templates->render('lisaa_tapahtuma');
+              break;
+            }
+            // Yllä uutta koodia!
+          default:
+            // Tässä kutsutaan ylläpidon default-sivua
 
-      
-               
-               
+        }
       } else {
         echo $templates->render('admin_ei_oikeuksia');
+        break;
       }
-      break; }
-
-
-      default:
+      break;
+    default:
       echo $templates->render('notfound');
-  }
+    }
 
-?> 
-~
+?>

@@ -3,7 +3,7 @@
   <head>
     <title>Talkootyö - <?=$this->e($title)?></title>
     <meta charset="UTF-8">
-    <link href="styles/styles.css" rel="stylesheet">  
+    <link href="<?=BASEURL?>/styles/styles.css" rel="stylesheet">  
   </head>
   <body>
     <header>
