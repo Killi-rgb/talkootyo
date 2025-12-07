@@ -209,39 +209,66 @@
         break;
       }
 
-      break;
+      
+  // ADMIN-POLKU chatGPT avustuksella ratkaistu koodissa olleet ongelmat
     case (bool)preg_match('/\/admin.*/', $request):
-      if ($loggeduser["admin"]) {
-        echo "Ylläpitosivut";
-         echo $templates->render('yllapitosivut');
-        switch ($request) {
-          // Tätä muokattu tiistaina
-          case  '/admin/lisaa_tapahtuma':
-            if (isset($_POST['laheta'])) {
-              $formdata = cleanArrayData($_POST);
-              require_once MODEL_DIR . 'tapahtuma.php';
-              $tulos = lisaaTapahtuma($formdata['nimi'], $formdata['kuvaus'], $formdata['tap_alkaa'], $formdata['tap_loppuu']);
-              if ($tulos) {
-                echo $templates->render('tapahtumaluotu', ['formdata' => $formdata]);
-                break;
-              }
-            } else {
-              echo $templates->render('lisaa_tapahtuma');
-              break;
-            }
-            // Tätä muokattu tiistaina ^^
-          break;
-          default:
-            // Tässä kutsutaan ylläpidon default-sivua
-          
-        }
-      } else {
-        echo $templates->render('admin_ei_oikeuksia');
-        break;
-      }
-      break;
-    default:
-      echo $templates->render('notfound');
-    }
 
+        if (!$loggeduser["admin"]) {
+            echo $templates->render('admin_ei_oikeuksia');
+            break;
+        }
+
+        // ADMININ PÄÄSIVU
+        if ($request === "/admin" || $request === "/admin/yllapitosivut") {
+            echo "Ylläpitosivut";
+            echo $templates->render('yllapitosivut');
+            break;
+        }
+
+        // ADMININ ALISIVUT
+        switch ($request) {
+
+            case "/admin/lisaa_tapahtuma":
+
+                if (isset($_POST['laheta'])) {
+
+                    $formdata = cleanArrayData($_POST);
+                    require_once MODEL_DIR . 'tapahtuma.php';
+
+                    $tulos = lisaaTapahtuma(
+                        $formdata['nimi'],
+                        $formdata['kuvaus'],
+                        $formdata['tap_alkaa'],
+                        $formdata['tap_loppuu']
+                    );
+
+                    if ($tulos) {
+                        echo $templates->render('tapahtumaluotu', ['formdata' => $formdata]);
+                        break;
+                    }
+
+                    echo $templates->render('lisaa_tapahtuma', [
+                        'error' => 'Tallennus epäonnistui.',
+                        'formdata' => $formdata
+                    ]);
+                    break;
+
+                } else {
+                    echo $templates->render('lisaa_tapahtuma');
+                    break;
+                }
+
+            default:
+                echo $templates->render('admin_default');
+        }
+
+        break;
+
+
+
+    // DEFAULT: EI LÖYTYNYT
+    default:
+        echo $templates->render('notfound');
+        break;
+}
 ?>
